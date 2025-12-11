@@ -1,0 +1,14 @@
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+
+export const ENDPOINTS = {
+  TASKS: '/api/tasks',
+} as const;
+
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+  INTERNAL_SERVER_ERROR: 500,
+} as const;
