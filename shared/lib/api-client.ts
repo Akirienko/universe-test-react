@@ -2,8 +2,22 @@ import { ApiError } from '@/shared/types/types';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
+    let errorMessage = response.statusText;
+
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.error || errorData.message || errorMessage;
+    } catch {
+      // Якщо відповідь не JSON, використовуємо statusText
+      try {
+        errorMessage = await response.text() || errorMessage;
+      } catch {
+        // Ігноруємо помилки парсингу
+      }
+    }
+
     const error: ApiError = {
-      message: (await response.text()) || response.statusText,
+      message: errorMessage,
       statusCode: response.status,
     };
     throw error;

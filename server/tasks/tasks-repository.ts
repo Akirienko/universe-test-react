@@ -10,7 +10,8 @@ export function getAllTasks(): Task[] {
 }
 
 export function getTaskById(id: string): Task | undefined {
-  return tasksMap.get(id);
+  const task = tasksMap.get(id);
+  return task;
 }
 
 export function createTask(task: Task): Task {
@@ -20,7 +21,9 @@ export function createTask(task: Task): Task {
 
 export function updateTask(id: string, updates: Partial<Task>): Task | null {
   const task = tasksMap.get(id);
-  if (!task) return null;
+  if (!task) {
+    return null;
+  }
 
   const updatedTask = { ...task, ...updates };
   tasksMap.set(id, updatedTask);
@@ -28,5 +31,6 @@ export function updateTask(id: string, updates: Partial<Task>): Task | null {
 }
 
 export function deleteTask(id: string): boolean {
-  return tasksMap.delete(id);
+  const result = tasksMap.delete(id);
+  return result;
 }
