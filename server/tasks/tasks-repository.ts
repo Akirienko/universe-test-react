@@ -1,9 +1,18 @@
 import { Task } from '@/features/tasks/types/task.types';
 import { mockTasks } from './mock-data';
 
-const tasksMap = new Map<string, Task>(
+// Використовуємо globalThis щоб зберегти стан між HMR в dev режимі
+declare global {
+  var tasksMap: Map<string, Task> | undefined;
+}
+
+const tasksMap = globalThis.tasksMap ?? new Map<string, Task>(
   mockTasks.map((task) => [task.id, task])
 );
+
+if (process.env.NODE_ENV === 'development') {
+  globalThis.tasksMap = tasksMap;
+}
 
 export function getAllTasks(): Task[] {
   return Array.from(tasksMap.values());
